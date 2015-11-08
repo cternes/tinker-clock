@@ -29,76 +29,94 @@ public class TimeLedProvider {
 		Instant now = Instant.now(clock);
 		LocalTime time = LocalTime.from(now.atZone(TIMEZONE));
 
-		int hours = time.getHour(); 
+		int hours = time.getHour();
+		int minutes = time.getMinute();
 		
 		if(hours >= 12) {
 			hours = hours - 12;
 		}
 		
-		if((hours == 0) && time.getMinute() == 0) {
-			addItIs(leds);
-			addTwelve(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 1 && time.getMinute() == 0) {
-			addItIs(leds);
-			addOne(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 2 && time.getMinute() == 0) {
-			addItIs(leds);
-			addTwo(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 3 && time.getMinute() == 0) {
-			addItIs(leds);
-			addThree(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 4 && time.getMinute() == 0) {
-			addItIs(leds);
-			addFour(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 5 && time.getMinute() == 0) {
-			addItIs(leds);
-			addFive(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 6 && time.getMinute() == 0) {
-			addItIs(leds);
-			addSix(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 7 && time.getMinute() == 0) {
-			addItIs(leds);
-			addSeven(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 8 && time.getMinute() == 0) {
-			addItIs(leds);
-			addEight(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 9 && time.getMinute() == 0) {
-			addItIs(leds);
-			addNine(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 10 && time.getMinute() == 0) {
-			addItIs(leds);
-			addTen(leds);
-			addClockWord(leds);
-		}
-		else if(hours == 11 && time.getMinute() == 0) {
-			addItIs(leds);
-			addEleven(leds);
-			addClockWord(leds);
-		}
+		addItIs(leds);
+		setMinuteLeds(leds, minutes);
+		setHourLeds(leds, hours, minutes);
 		
 		return leds;
 	}
 	
+	private void setHourLeds(List<Led> leds, int hours, int minutes) {
+		if(hours == 0) {
+			addTwelve(leds);
+		}
+		else if(hours == 1) {
+			addOne(leds);
+		}
+		else if(hours == 2) {
+			addTwo(leds);
+		}
+		else if(hours == 3 ) {
+			addThree(leds);
+		}
+		else if(hours == 4 ) {
+			addFour(leds);
+		}
+		else if(hours == 5 ) {
+			addFive(leds);
+		}
+		else if(hours == 6 ) {
+			addSix(leds);
+		}
+		else if(hours == 7 ) {
+			addSeven(leds);
+		}
+		else if(hours == 8 ) {
+			addEight(leds);
+		}
+		else if(hours == 9 ) {
+			addNine(leds);
+		}
+		else if(hours == 10 ) {
+			addTen(leds);
+		}
+		else if(hours == 11 ) {
+			addEleven(leds);
+		}
+		
+		if(minutes < 5) {
+			addClockWord(leds);
+		}
+	}
+
+	private void setMinuteLeds(List<Led> leds, int minutes) {
+		if(minutes >= 5 && minutes < 10) {
+			addFiveMinutes(leds);
+			addAfter(leds);
+		}
+		else if(minutes >= 10 && minutes < 15) {
+			addTenMinutes(leds);
+			addAfter(leds);
+		}
+		else if(minutes >= 20 && minutes < 25) {
+			addTwentyMinutes(leds);
+			addAfter(leds);
+		}
+	}
+
+	private void addTwentyMinutes(List<Led> leds) {
+		addLeds(leds, 93, 94, 95, 96, 97, 98, 99);
+	}
+
+	private void addTenMinutes(List<Led> leds) {
+		addLeds(leds, 89, 90, 91, 92);
+	}
+
+	private void addFiveMinutes(List<Led> leds) {
+		addLeds(leds, 103, 102, 101, 100);
+	}
+
+	private void addAfter(List<Led> leds) {
+		addLeds(leds, 74, 75, 76, 77);
+	}
+
 	private void addEleven(List<Led> leds) {
 		addLeds(leds, 61, 60, 59);
 	}

@@ -87,6 +87,33 @@ public class TimeLedProviderTest {
 		checkFullHour(0, 16, 15, 14, 13, 12);
 	}
 	
+	@Test
+	public void shouldReturnLedsForFivePastNoon() {
+		checkAfterMinutes(0, 5, 103, 102, 101, 100); //5
+		checkAfterMinutes(0, 5, 16, 15, 14, 13, 12); //12
+	}
+	
+	@Test
+	public void shouldReturnLedsForTenPastNoon() {
+		checkAfterMinutes(0, 10, 89, 90, 91, 92); //10
+		checkAfterMinutes(0, 10, 16, 15, 14, 13, 12); //12
+	}
+	
+	@Test
+	public void shouldReturnLedsForTwentyPastNoon() {
+		checkAfterMinutes(0, 20, 93, 94, 95, 96, 97, 98, 99); //20
+		checkAfterMinutes(0, 20, 16, 15, 14, 13, 12); //12
+	}
+	
+	private void checkAfterMinutes(int hour, int minutes, int... indices) {
+		setTime(hour, minutes);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncluded(leds, indices); 
+		assertThatLedsIncludeAfter(leds);
+	}
+	
 	private void checkFullHour(int hour, int... indices) {
 		setTime(hour, 0);
 		
@@ -94,6 +121,10 @@ public class TimeLedProviderTest {
 		assertThatLedsIncludeItIs(leds);
 		assertThatLedsIncluded(leds, indices);
 		assertThatLedsIncludeClockWord(leds);
+	}
+	
+	private void assertThatLedsIncludeAfter(List<Led> leds) {
+		assertThatLedsIncluded(leds, 74, 75, 76, 77);
 	}
 	
 	private void assertThatLedsIncludeItIs(List<Led> leds) {
