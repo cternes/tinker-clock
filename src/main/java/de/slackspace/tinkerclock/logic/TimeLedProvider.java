@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.omg.CosNaming.NamingContextExtPackage.AddressHelper;
 import org.springframework.stereotype.Component;
 
 import de.slackspace.tinkerclock.device.Led;
@@ -37,18 +38,31 @@ public class TimeLedProvider {
 		}
 		
 		addItIs(leds);
-		setMinuteLeds(leds, minutes);
+		
+		boolean increaseHours = setMinuteLeds(leds, minutes);
+		
+		if(increaseHours) {
+			hours = hours + 1;
+		}
+		
 		setHourLeds(leds, hours, minutes);
 		
 		return leds;
 	}
-	
+
 	private void setHourLeds(List<Led> leds, int hours, int minutes) {
+		boolean isFullHour = false;
+		
+		if(minutes < 5) {
+			isFullHour = true;
+			addClockWord(leds);
+		}
+		
 		if(hours == 0) {
 			addTwelve(leds);
 		}
 		else if(hours == 1) {
-			addOne(leds);
+			addOne(leds, !isFullHour);
 		}
 		else if(hours == 2) {
 			addTwo(leds);
@@ -86,7 +100,9 @@ public class TimeLedProvider {
 		}
 	}
 
-	private void setMinuteLeds(List<Led> leds, int minutes) {
+	private boolean setMinuteLeds(List<Led> leds, int minutes) {
+		boolean increaseHours = false;
+		
 		if(minutes >= 5 && minutes < 10) {
 			addFiveMinutes(leds);
 			addAfter(leds);
@@ -95,10 +111,67 @@ public class TimeLedProvider {
 			addTenMinutes(leds);
 			addAfter(leds);
 		}
+		else if(minutes >= 15 && minutes < 20) {
+			addQuarterMinutes(leds);
+			increaseHours = true;
+		}
 		else if(minutes >= 20 && minutes < 25) {
 			addTwentyMinutes(leds);
 			addAfter(leds);
 		}
+		else if(minutes >= 25 && minutes < 30) {
+			addFiveMinutes(leds);
+			addBefore(leds);
+			addHalf(leds);
+			increaseHours = true;
+		}
+		else if(minutes >= 30 && minutes < 35) {
+			addHalf(leds);
+			increaseHours = true;
+		}
+		else if(minutes >= 35 && minutes < 40) {
+			addFiveMinutes(leds);
+			addAfter(leds);
+			addHalf(leds);
+			increaseHours = true;
+		}
+		else if(minutes >= 40 && minutes < 45) {
+			addTwentyMinutes(leds);
+			addBefore(leds);
+			increaseHours = true;
+		}
+		else if(minutes >= 45 && minutes < 50) {
+			addThreeQuartersMinutes(leds);
+			increaseHours = true;
+		}
+		else if(minutes >= 50 && minutes < 55) {
+			addTenMinutes(leds);
+			addBefore(leds);
+			increaseHours = true;
+		}
+		else if(minutes >= 55) {
+			addFiveMinutes(leds);
+			addBefore(leds);
+			increaseHours = true;
+		}
+		
+		return increaseHours;
+	}
+	
+	private void addThreeQuartersMinutes(List<Led> leds) {
+		addLeds(leds, 88, 87, 86, 85, 84, 83, 82, 81, 80, 79, 78);
+	}
+	
+	private void addHalf(List<Led> leds) {
+		addLeds(leds, 66, 65, 64, 63);
+	}
+
+	private void addBefore(List<Led> leds) {
+		addLeds(leds, 67, 68, 69);
+	}
+
+	private void addQuarterMinutes(List<Led> leds) {
+		addLeds(leds, 84, 83, 82, 81, 80, 79, 78);
 	}
 
 	private void addTwentyMinutes(List<Led> leds) {
@@ -157,8 +230,13 @@ public class TimeLedProvider {
 		addLeds(leds, 52, 53, 54, 55);
 	}
 
-	private void addOne(List<Led> leds) {
-		addLeds(leds, 45, 46, 47);
+	private void addOne(List<Led> leds, boolean useAppendix) {
+		if(useAppendix) {
+			addLeds(leds, 45, 46, 47, 48);
+		}
+		else {
+			addLeds(leds, 45, 46, 47);
+		}
 	}
 
 	private void addClockWord(List<Led> leds) {

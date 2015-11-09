@@ -100,11 +100,154 @@ public class TimeLedProviderTest {
 	}
 	
 	@Test
+	public void shouldReturnLedsForQuarterPastNoon() {
+		setTime(0, 15);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncludeQuarter(leds);
+		assertThatLedsIncluded(leds, 45, 46, 47, 48);//1
+	}
+	
+	@Test
 	public void shouldReturnLedsForTwentyPastNoon() {
 		checkAfterMinutes(0, 20, 93, 94, 95, 96, 97, 98, 99); //20
 		checkAfterMinutes(0, 20, 16, 15, 14, 13, 12); //12
 	}
 	
+	@Test
+	public void shouldReturnLedsForTwentyFivePastNoon() {
+		setTime(0, 25);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncluded(leds, 103, 102, 101, 100); //5
+		assertThatLedsIncludeBefore(leds);
+		assertThatLedsIncludeHalf(leds);
+		assertThatLedsIncluded(leds, 45, 46, 47, 48);//1
+	}
+	
+	@Test
+	public void shouldReturnLedsForHalfPastNoon() {
+		setTime(0, 30);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncludeHalf(leds);
+		assertThatLedsIncluded(leds, 45, 46, 47, 48);//1
+	}
+	
+	@Test
+	public void shouldReturnLedsForThirtyFivePastNoon() {
+		setTime(0, 35);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncluded(leds, 103, 102, 101, 100); //5
+		assertThatLedsIncludeAfter(leds);
+		assertThatLedsIncludeHalf(leds);
+		assertThatLedsIncluded(leds, 45, 46, 47, 48);//1
+	}
+	
+	@Test
+	public void shouldReturnLedsForFourtyPastNoon() {
+		setTime(0, 40);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncluded(leds, 93, 94, 95, 96, 97, 98, 99); //20
+		assertThatLedsIncludeBefore(leds);
+		assertThatLedsIncluded(leds, 45, 46, 47, 48);//1
+	}
+	
+	@Test
+	public void shouldReturnLedsForFourtyFivePastNoon() {
+		setTime(0, 45);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncludeThreeQuarters(leds);
+		assertThatLedsIncluded(leds, 45, 46, 47, 48);//1
+	}
+	
+	@Test
+	public void shouldReturnLedsForFiftyPastNoon() {
+		setTime(0, 50);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncluded(leds, 89, 90, 91, 92); //10
+		assertThatLedsIncludeBefore(leds);
+		assertThatLedsIncluded(leds, 45, 46, 47, 48);//1
+	}
+	
+	@Test
+	public void shouldReturnLedsForFiftyFivePastNoon() {
+		setTime(0, 55);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncluded(leds, 103, 102, 101, 100); //5
+		assertThatLedsIncludeBefore(leds);
+		assertThatLedsIncluded(leds, 45, 46, 47, 48);//1
+	}
+	
+	@Test
+	public void shouldReturnLedsForFivePastOne() {
+		checkAfterMinutes(1, 5, 103, 102, 101, 100); //5
+		checkAfterMinutes(1, 5, 45, 46, 47, 48); //1
+	}
+	
+	@Test
+	public void shouldReturnLedsForTenPastOne() {
+		checkAfterMinutes(1, 10, 89, 90, 91, 92); //10
+		checkAfterMinutes(1, 10, 45, 46, 47, 48); //1
+	}
+	
+	@Test
+	public void shouldReturnLedsForQuarterPastOne() {
+		setTime(1, 15);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncludeQuarter(leds);
+		assertThatLedsIncluded(leds, 52, 53, 54, 55); //2
+	}
+	
+	@Test
+	public void shouldReturnLedsForTwentyPastOne() {
+		checkAfterMinutes(1, 20, 93, 94, 95, 96, 97, 98, 99); //20
+		checkAfterMinutes(1, 20, 45, 46, 47, 48); //1
+	}
+	
+	@Test
+	public void shouldReturnLedsForTwentyFivePastOne() {
+		setTime(1, 25);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncludeItIs(leds);
+		assertThatLedsIncluded(leds, 103, 102, 101, 100); //5
+		assertThatLedsIncludeBefore(leds);
+		assertThatLedsIncludeHalf(leds);
+		assertThatLedsIncluded(leds, 52, 53, 54, 55);//2
+	}
+	
+	private void assertThatLedsIncludeBefore(List<Led> leds) {
+		assertThatLedsIncluded(leds, 67, 68, 69);
+	}
+
+	private void assertThatLedsIncludeHalf(List<Led> leds) {
+		assertThatLedsIncluded(leds, 66, 65, 64, 63);
+	}
+
+	private void assertThatLedsIncludeThreeQuarters(List<Led> leds) {
+		assertThatLedsIncluded(leds, 88, 87, 86, 85, 84, 83, 82, 81, 80, 79, 78);
+	}
+	
+	private void assertThatLedsIncludeQuarter(List<Led> leds) {
+		assertThatLedsIncluded(leds, 84, 83, 82, 81, 80, 79, 78);
+	}
+
 	private void checkAfterMinutes(int hour, int minutes, int... indices) {
 		setTime(hour, minutes);
 		
