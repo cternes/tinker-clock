@@ -7,7 +7,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.omg.CosNaming.NamingContextExtPackage.AddressHelper;
 import org.springframework.stereotype.Component;
 
 import de.slackspace.tinkerclock.device.Led;
@@ -16,7 +15,7 @@ import de.slackspace.tinkerclock.device.Led;
 public class TimeLedProvider {
 
 	private static final ZoneId TIMEZONE = ZoneId.of("Europe/Berlin");
-	private static String COLOR = "#ffffff";
+	private static String COLOR = "#0066FF";
 	
 	private Clock clock = Clock.systemDefaultZone();
 	
