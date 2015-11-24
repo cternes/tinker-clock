@@ -12,6 +12,7 @@ import de.slackspace.tinkerclock.device.Led;
 @Component
 public class TestmodeTimeLedProvider extends TimeLedProvider {
 
+	private int delay = 5;
 	private int hours = 0;
 	private int minutes = 0;
 	
@@ -20,12 +21,21 @@ public class TestmodeTimeLedProvider extends TimeLedProvider {
 		Instant fixedInstant = Instant.from(dateTime.atZone(TIMEZONE));
 		Clock clock = Clock.fixed(fixedInstant, TIMEZONE);
 		
-		if(minutes > 60) {
-			minutes = 0;
-			hours = hours++;
+		// delay change of time
+		if(delay < 5) {
+			delay = delay + 1;
+			return clock;
 		}
 		else {
-			minutes = minutes++;
+			delay = 0;
+		}
+		
+		if(minutes == 59) {
+			minutes = 0;
+			hours = hours + 1;
+		}
+		else {
+			minutes = minutes +1;
 		}
 		
 		return clock;
