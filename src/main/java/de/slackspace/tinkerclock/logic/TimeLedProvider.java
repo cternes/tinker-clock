@@ -7,20 +7,29 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import de.slackspace.tinkerclock.device.Led;
+import de.slackspace.tinkerclock.properties.PropertyHandler;
 
 @Component
 public class TimeLedProvider {
 
-	private static final ZoneId TIMEZONE = ZoneId.of("Europe/Berlin");
+	protected static final ZoneId TIMEZONE = ZoneId.of("Europe/Berlin");
 	private static String COLOR = "#0066FF";
 	
 	private Clock clock = Clock.systemDefaultZone();
 	
+	@Autowired
+	private PropertyHandler propertyHandler;
+	
 	protected void setClock(Clock clock) {
 		this.clock = clock;
+	}
+	
+	protected void setPropertyHandler(PropertyHandler propertyHandler) {
+		this.propertyHandler = propertyHandler;
 	}
 	
 	public List<Led> getTimeLeds() {
@@ -57,7 +66,7 @@ public class TimeLedProvider {
 			addClockWord(leds);
 		}
 		
-		if(hours == 0) {
+		if(hours == 0 || hours == 12) {
 			addTwelve(leds);
 		}
 		else if(hours == 1) {
@@ -158,100 +167,100 @@ public class TimeLedProvider {
 	}
 	
 	private void addThreeQuartersMinutes(List<Led> leds) {
-		addLeds(leds, 88, 87, 86, 85, 84, 83, 82, 81, 80, 79, 78);
+		addLeds(leds, propertyHandler.getLedList("ThreeQuarter"));
 	}
 	
 	private void addHalf(List<Led> leds) {
-		addLeds(leds, 66, 65, 64, 63);
+		addLeds(leds, propertyHandler.getLedList("Half"));
 	}
 
 	private void addBefore(List<Led> leds) {
-		addLeds(leds, 67, 68, 69);
+		addLeds(leds, propertyHandler.getLedList("Before"));
 	}
 
 	private void addQuarterMinutes(List<Led> leds) {
-		addLeds(leds, 84, 83, 82, 81, 80, 79, 78);
+		addLeds(leds, propertyHandler.getLedList("Quarter"));
 	}
 
 	private void addTwentyMinutes(List<Led> leds) {
-		addLeds(leds, 93, 94, 95, 96, 97, 98, 99);
+		addLeds(leds, propertyHandler.getLedList("TwentyMinutes"));
 	}
 
 	private void addTenMinutes(List<Led> leds) {
-		addLeds(leds, 89, 90, 91, 92);
+		addLeds(leds, propertyHandler.getLedList("TenMinutes"));
 	}
 
 	private void addFiveMinutes(List<Led> leds) {
-		addLeds(leds, 103, 102, 101, 100);
+		addLeds(leds, propertyHandler.getLedList("FiveMinutes"));
 	}
 
 	private void addAfter(List<Led> leds) {
-		addLeds(leds, 74, 75, 76, 77);
+		addLeds(leds, propertyHandler.getLedList("After"));
 	}
 
 	private void addEleven(List<Led> leds) {
-		addLeds(leds, 61, 60, 59);
+		addLeds(leds, propertyHandler.getLedList("Eleven"));
 	}
 	
 	private void addTen(List<Led> leds) {
-		addLeds(leds, 1, 2, 3, 4);
+		addLeds(leds, propertyHandler.getLedList("Ten"));
 	}
 	
 	private void addNine(List<Led> leds) {
-		addLeds(leds, 4, 5, 6, 7);
+		addLeds(leds, propertyHandler.getLedList("Nine"));
 	}
 
 	private void addEight(List<Led> leds) {
-		addLeds(leds, 30, 31, 32, 33);
+		addLeds(leds, propertyHandler.getLedList("Eight"));
 	}
 
 	private void addSeven(List<Led> leds) {
-		addLeds(leds, 22, 21, 20, 19, 18, 17);
+		addLeds(leds, propertyHandler.getLedList("Seven"));
 	}
 
 	private void addSix(List<Led> leds) {
-		addLeds(leds, 23, 24, 25, 26, 27);
+		addLeds(leds, propertyHandler.getLedList("Six"));
 	}
 
 	private void addFive(List<Led> leds) {
-		addLeds(leds, 59, 58, 57, 56);
+		addLeds(leds, propertyHandler.getLedList("Five"));
 	}
 
 	private void addFour(List<Led> leds) {
-		addLeds(leds, 37, 36, 35, 34);
+		addLeds(leds, propertyHandler.getLedList("Four"));
 	}
 
 	private void addThree(List<Led> leds) {
-		addLeds(leds, 44, 43, 42, 41);
+		addLeds(leds, propertyHandler.getLedList("Three"));
 	}
 
 	private void addTwo(List<Led> leds) {
-		addLeds(leds, 52, 53, 54, 55);
+		addLeds(leds, propertyHandler.getLedList("Two"));
 	}
 
 	private void addOne(List<Led> leds, boolean useAppendix) {
 		if(useAppendix) {
-			addLeds(leds, 45, 46, 47, 48);
+			addLeds(leds, propertyHandler.getLedList("OneExtended"));
 		}
 		else {
-			addLeds(leds, 45, 46, 47);
+			addLeds(leds, propertyHandler.getLedList("One"));
 		}
 	}
 
 	private void addClockWord(List<Led> leds) {
-		addLeds(leds, 9, 10, 11);
+		addLeds(leds, propertyHandler.getLedList("Clock"));
 	}
 
 	private void addItIs(List<Led> leds) {
 		// it
-		addLeds(leds, 109, 110);
+		addLeds(leds, propertyHandler.getLedList("It"));
 		
 		// is
-		addLeds(leds, 105, 106, 107);
+		addLeds(leds, propertyHandler.getLedList("Is"));
 	}
 	
 	private void addTwelve(List<Led> leds) {
-		addLeds(leds, 16, 15, 14, 13, 12);
+		addLeds(leds, propertyHandler.getLedList("Twelve"));
 	}
 	
 	private void addLeds(List<Led> leds, int... indices) {

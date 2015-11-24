@@ -2,6 +2,12 @@ package de.slackspace.tinkerclock.device;
 
 import java.awt.Color;
 
+/**
+ * Represents a single led in a led-strip. 
+ * 
+ * The led-strip is zero-based! Therefore the first led in the strip has index of 0.
+ *
+ */
 public class Led {
 
 	private int index;

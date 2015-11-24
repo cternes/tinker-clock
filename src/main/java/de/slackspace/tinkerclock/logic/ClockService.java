@@ -22,16 +22,26 @@ public class ClockService implements FrameRenderedListener {
 	
 	@Autowired
 	TimeLedProvider timeLedProvider;
+	
+	@Autowired
+	TestmodeTimeLedProvider testmodeTimeLedProvider;
 
 	@Autowired
 	LedStripManager manager;
 	
+	TimeLedProvider currentProvider;
+	
 	@PostConstruct
 	public void init() {
+		currentProvider = timeLedProvider;
+		
 		boolean connected = manager.connect();
 		if(connected) {
 			logger.debug("Successfully connected to tinkerforge brick");
 			manager.getLedStrip().addFrameRenderedListener(this);
+		}
+		else {
+			logger.error("Could not connect to tinkerforge brick");
 		}
 	}
 	
@@ -41,7 +51,7 @@ public class ClockService implements FrameRenderedListener {
 		
 		ledStrip.turnOff();
 		
-		List<Led> leds = timeLedProvider.getTimeLeds();
+		List<Led> leds = currentProvider.getTimeLeds();
 		ledStrip.setLeds(leds);
 	}
 	
@@ -57,8 +67,16 @@ public class ClockService implements FrameRenderedListener {
 	}
 
 	public List<Led> getStatus() {
-		List<Led> leds = timeLedProvider.getTimeLeds();
+		List<Led> leds = currentProvider.getTimeLeds();
 		return leds;
+	}
+	
+	public void enableTestmode() {
+		currentProvider = testmodeTimeLedProvider;
+	}
+	
+	public void disableTestmode() {
+		currentProvider = timeLedProvider;
 	}
 
 }

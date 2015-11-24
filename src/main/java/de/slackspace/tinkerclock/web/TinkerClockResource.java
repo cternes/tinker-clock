@@ -50,4 +50,14 @@ public class TinkerClockResource {
 		
 		return sb.toString();
 	}
+	
+	@RequestMapping(method=RequestMethod.POST, value = "/testmode/start")
+	public void startTestMode() {
+		clockService.enableTestmode();
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value = "/testmode/stop")
+	public void stopTestMode() {
+		clockService.disableTestmode();
+	}
 }
