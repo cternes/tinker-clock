@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import com.tinkerforge.BrickletLEDStrip;
 import com.tinkerforge.IPConnection;
 import com.tinkerforge.NotConnectedException;
@@ -12,6 +15,7 @@ import com.tinkerforge.TimeoutException;
 
 public class EnhancedLedStrip extends BrickletLEDStrip {
 
+	private Log logger = LogFactory.getLog(getClass());
 	private int size = 150;
 	
 	public EnhancedLedStrip(String uid, IPConnection ipcon) {
@@ -54,9 +58,9 @@ public class EnhancedLedStrip extends BrickletLEDStrip {
 	        	setRGBValues(i, (short)16, b, r, g);	
 			}
 		} catch (TimeoutException e) {
-			e.printStackTrace();
+			logger.error(e);
 		} catch (NotConnectedException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 	
@@ -87,9 +91,9 @@ public class EnhancedLedStrip extends BrickletLEDStrip {
 	        
         	setRGBValues(offset * 16, (short)16, b, r, g);
 		} catch (TimeoutException e) {
-			e.printStackTrace();
+			logger.error(e);
 		} catch (NotConnectedException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 	
@@ -118,9 +122,9 @@ public class EnhancedLedStrip extends BrickletLEDStrip {
 				setRGBValues(groupOffset * 16, (short)16, ledGroup.getBlue(), ledGroup.getRed(), ledGroup.getGreen());
 			}
 		} catch (TimeoutException e) {
-			e.printStackTrace();
+			logger.error(e);
 		} catch (NotConnectedException e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 	

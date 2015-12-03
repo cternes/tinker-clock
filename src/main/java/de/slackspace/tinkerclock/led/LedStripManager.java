@@ -12,6 +12,7 @@ import com.tinkerforge.IPConnection;
 import com.tinkerforge.NotConnectedException;
 import com.tinkerforge.TimeoutException;
 
+import de.slackspace.tinkerclock.device.DeviceManager;
 import de.slackspace.tinkerclock.device.EnhancedLedStrip;
 
 @Component
@@ -31,7 +32,9 @@ public class LedStripManager {
         try {
 			ipcon.connect(HOST, PORT);
 			ledStrip.setChipType(BrickletLEDStrip.CHIP_TYPE_WS2812);
-			return true;
+			
+			DeviceManager deviceManager = new DeviceManager(ipcon);
+			return deviceManager.isDeviceConnected(UID);
 		} catch (AlreadyConnectedException | IOException | TimeoutException | NotConnectedException e) {
 			logger.error("Could not connect to led strip", e);
 			return false;

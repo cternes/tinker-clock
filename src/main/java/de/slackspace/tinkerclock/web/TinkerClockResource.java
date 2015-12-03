@@ -26,7 +26,11 @@ public class TinkerClockResource {
 	
 	@PostConstruct
 	public void init() {
-		logger.debug("Successfully started TinkerClockResource");
+		logger.debug("Successfully started TinkerClockResource. Starting clock again.");
+		
+		// make startup more robust
+		stop();
+		start();
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, value = "/stop")

@@ -37,11 +37,12 @@ public class ClockService implements FrameRenderedListener {
 		
 		boolean connected = manager.connect();
 		if(connected) {
-			logger.debug("Successfully connected to tinkerforge brick");
+			logger.debug("Successfully connected to led strip");
 			manager.getLedStrip().addFrameRenderedListener(this);
 		}
 		else {
-			logger.error("Could not connect to tinkerforge brick");
+			logger.error("Could not connect to led strip");
+			throw new RuntimeException("Could not connect to led strip");
 		}
 	}
 	
