@@ -1,5 +1,6 @@
 package de.slackspace.tinkerclock.logic;
 
+import java.awt.Color;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalTime;
@@ -17,12 +18,26 @@ import de.slackspace.tinkerclock.properties.PropertyHandler;
 public class TimeLedProvider {
 
 	protected static final ZoneId TIMEZONE = ZoneId.of("Europe/Berlin");
-	private static String COLOR = "#0066FF";
+	private String color = "#0066FF";
 	
 	private Clock clock = Clock.systemDefaultZone();
 	
 	@Autowired
 	private PropertyHandler propertyHandler;
+	
+	public void setColor(String colorHexTriplet) {
+		try {
+			Color.decode(colorHexTriplet);
+			this.color = colorHexTriplet;
+		}
+		catch(NumberFormatException e) {
+			throw new RuntimeException("The given color '" + colorHexTriplet + "' is not a valid hex triplet.", e);
+		}
+	}
+	
+	public String getColor() {
+		return color;
+	}
 	
 	protected void setClock(Clock clock) {
 		this.clock = clock;
@@ -300,7 +315,7 @@ public class TimeLedProvider {
 	
 	private void addLeds(List<Led> leds, int... indices) {
 		for (int i : indices) {
-			leds.add(new Led(i, COLOR));
+			leds.add(new Led(i, color));
 		}
 	}
 	

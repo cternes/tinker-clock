@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import de.slackspace.tinkerclock.device.Led;
@@ -36,6 +37,20 @@ public class TinkerClockResource {
 	@RequestMapping(method=RequestMethod.POST, value = "/start")
 	public void start() {
 		clockService.start();
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value = "/color") 
+	public String getColor() {
+		return clockService.getColor();
+	}
+	
+	@RequestMapping(method=RequestMethod.POST, value = "/color")
+	public void setColor(@RequestParam(value="colorHexTriplet", required=true) String colorHexTriplet) {
+		if(!colorHexTriplet.contains("#")) {
+			colorHexTriplet = "#" + colorHexTriplet;
+		}
+		
+		clockService.setColor(colorHexTriplet);
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value = "/status")

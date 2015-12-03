@@ -71,6 +71,14 @@ public class ClockService implements FrameRenderedListener {
 		return leds;
 	}
 	
+	public String getColor() {
+		return currentProvider.getColor();
+	}
+	
+	public void setColor(String colorHexTriplet) {
+		currentProvider.setColor(colorHexTriplet);
+	}
+	
 	public void enableTestmode() {
 		currentProvider = testmodeTimeLedProvider;
 	}
