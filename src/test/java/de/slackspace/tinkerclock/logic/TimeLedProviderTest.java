@@ -253,6 +253,44 @@ public class TimeLedProviderTest {
 		assertThatLedsIncluded(leds, 51, 52, 53, 54);//2
 	}
 	
+	@Test
+	public void shouldReturnOneMinuteLed() {
+		setTime(0, 1);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncluded(leds, 110);
+	}
+	
+	@Test
+	public void shouldReturnTwoMinuteLed() {
+		setTime(0, 2);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncluded(leds, 110);
+		assertThatLedsIncluded(leds, 111);
+	}
+	
+	@Test
+	public void shouldReturnThreeMinuteLed() {
+		setTime(0, 3);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncluded(leds, 110);
+		assertThatLedsIncluded(leds, 111);
+		assertThatLedsIncluded(leds, 112);
+	}
+	
+	@Test
+	public void shouldReturnFourMinuteLed() {
+		setTime(0, 4);
+		
+		List<Led> leds = cut.getTimeLeds();
+		assertThatLedsIncluded(leds, 110);
+		assertThatLedsIncluded(leds, 111);
+		assertThatLedsIncluded(leds, 112);
+		assertThatLedsIncluded(leds, 113);
+	}
+	
 	private void assertThatLedsIncludeBefore(List<Led> leds) {
 		assertThatLedsIncluded(leds, 66, 67, 68);
 	}

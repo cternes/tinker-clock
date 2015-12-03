@@ -163,6 +163,25 @@ public class TimeLedProvider {
 			increaseHours = true;
 		}
 		
+		if(minutes % 5 == 1) {
+			addOneMinute(leds);
+		}
+		else if(minutes % 5 == 2) {
+			addOneMinute(leds);
+			addTwoMinutes(leds);
+		}
+		else if(minutes % 5 == 3) {
+			addOneMinute(leds);
+			addTwoMinutes(leds);
+			addThreeMinutes(leds);
+		}
+		else if(minutes % 5 == 4) {
+			addOneMinute(leds);
+			addTwoMinutes(leds);
+			addThreeMinutes(leds);
+			addFourMinutes(leds);
+		}
+		
 		return increaseHours;
 	}
 	
@@ -261,6 +280,22 @@ public class TimeLedProvider {
 	
 	private void addTwelve(List<Led> leds) {
 		addLeds(leds, propertyHandler.getLedList("Twelve"));
+	}
+	
+	private void addOneMinute(List<Led> leds) {
+		addLeds(leds, propertyHandler.getLedList("OneMinute"));
+	}
+	
+	private void addTwoMinutes(List<Led> leds) {
+		addLeds(leds, propertyHandler.getLedList("TwoMinutes"));
+	}
+	
+	private void addThreeMinutes(List<Led> leds) {
+		addLeds(leds, propertyHandler.getLedList("ThreeMinutes"));
+	}
+	
+	private void addFourMinutes(List<Led> leds) {
+		addLeds(leds, propertyHandler.getLedList("FourMinutes"));
 	}
 	
 	private void addLeds(List<Led> leds, int... indices) {

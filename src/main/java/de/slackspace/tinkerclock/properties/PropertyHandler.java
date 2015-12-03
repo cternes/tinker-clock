@@ -43,7 +43,7 @@ public class PropertyHandler {
 	public int[] getLedList(String key) {
 		String ledString = properties.getProperty(key);
 		
-		if(ledString.isEmpty()) {
+		if(ledString == null || ledString.isEmpty()) {
 			throw new RuntimeException("Property for '" + key + "' is not defined!");
 		}
 		

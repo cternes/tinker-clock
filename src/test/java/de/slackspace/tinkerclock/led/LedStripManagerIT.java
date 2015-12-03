@@ -20,6 +20,9 @@ public class LedStripManagerIT {
 		
 		List<Led> leds = new ArrayList<Led>();
 		leds.add(new Led(110, "#ff0000"));
+		leds.add(new Led(111, "#ff0000"));
+		leds.add(new Led(112, "#ff0000"));
+		leds.add(new Led(113, "#ff0000"));
 		manager.getLedStrip().setLeds(leds);
 		
 		Thread.sleep(5000);
