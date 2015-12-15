@@ -3,6 +3,7 @@ package de.slackspace.tinkerclock.web;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -78,5 +79,11 @@ public class TinkerClockResource {
 	@RequestMapping(method=RequestMethod.POST, value = "/testmode/stop")
 	public void stopTestMode() {
 		clockService.disableTestmode();
+	}
+	
+	@PreDestroy
+	public void onShutdown() throws Exception {
+		logger.debug("System is going to halt. Turning off leds.");
+		clockService.stop();
 	}
 }
