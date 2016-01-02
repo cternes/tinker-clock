@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Change color</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+	<form method="POST" action="/color">
+		<label>Color: </label>
+		<input type="text" name="colorHexTriplet"></input>
+		<button type="submit">Change color</button>
+	</form>
+	
+	<form method="POST" action="/start">
+		<button type="submit">Start clock</button>
+	</form>
+	
+	<form method="POST" action="/stop">
+		<button type="submit">Stop clock</button>
+	</form>
+</body>
+</html>

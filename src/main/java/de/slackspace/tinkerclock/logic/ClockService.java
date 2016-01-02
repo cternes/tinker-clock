@@ -40,10 +40,10 @@ public class ClockService implements FrameRenderedListener {
 			logger.debug("Successfully connected to led strip");
 			manager.getLedStrip().addFrameRenderedListener(this);
 		}
-		else {
-			logger.error("Could not connect to led strip");
-			throw new RuntimeException("Could not connect to led strip");
-		}
+//		else {
+//			logger.error("Could not connect to led strip");
+//			throw new RuntimeException("Could not connect to led strip");
+//		}
 	}
 	
 	@Override

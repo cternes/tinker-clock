@@ -55,6 +55,8 @@ public class TinkerClockResource {
 			colorHexTriplet = "#" + colorHexTriplet;
 		}
 		
+		logger.debug("Changing color to " + colorHexTriplet);
+		
 		clockService.setColor(colorHexTriplet);
 	}
 	
