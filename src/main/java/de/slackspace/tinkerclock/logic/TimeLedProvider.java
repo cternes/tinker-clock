@@ -18,7 +18,7 @@ import de.slackspace.tinkerclock.properties.PropertyHandler;
 public class TimeLedProvider {
 
 	protected static final ZoneId TIMEZONE = ZoneId.of("Europe/Berlin");
-	private String color = "#0066FF";
+	private String color = "#006600";
 	
 	private Clock clock = Clock.systemDefaultZone();
 	
