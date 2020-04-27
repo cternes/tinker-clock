@@ -9,8 +9,8 @@ import org.apache.commons.logging.LogFactory;
 import org.eclipse.paho.client.mqttv3.IMqttClient;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.stereotype.Component;
 
 import de.slackspace.tinkerclock.logic.TimeLedProvider;
@@ -40,19 +40,15 @@ public class MqttController {
     public void init() {
         String publisherId = "0f7f7719-1986-49cf-98b5-c81f84b82726";
         try {
-            client = new MqttClient("tcp://192.168.0.26:1883", publisherId);
+            client = new MqttClient("tcp://192.168.0.26:1883", publisherId, new MemoryPersistence());
             MqttConnectOptions options = new MqttConnectOptions();
             options.setAutomaticReconnect(true);
             options.setCleanSession(true);
-            options.setConnectionTimeout(10);
+            options.setConnectionTimeout(30);
             options.setUserName("");
             options.setPassword("".toCharArray());
             client.connect(options);
-        } catch (MqttException e) {
-            logger.error("Could not connect to mqtt server: " + e);
-        }
 
-        try {
             client.subscribe(COLOR_TOPIC, (topic, msg) -> {
                 byte[] payload = msg.getPayload();
 
@@ -66,8 +62,8 @@ public class MqttController {
                 String rawString = new String(payload);
                 setSwitch(rawString);
             });
-        } catch (MqttException e) {
-            logger.error("Could not connect to mqtt server: " + e);
+        } catch (Exception e) {
+            logger.error("Could not connect to mqtt server: ", e);
         }
     }
 
@@ -80,8 +76,8 @@ public class MqttController {
 
         try {
             client.publish(SWITCH_STATUS_TOPIC, new MqttMessage(msg.getBytes()));
-        } catch (MqttException e) {
-            logger.error("Could not send switch status to mqtt server: " + e);
+        } catch (Exception e) {
+            logger.error("Could not send switch status to mqtt server: ", e);
         }
     }
 
@@ -90,8 +86,8 @@ public class MqttController {
             Color color = provider.getColor();
             String msg = color.getRed() + "," + color.getGreen() + "," + color.getBlue();
             client.publish(COLOR_STATUS_TOPIC, new MqttMessage(msg.getBytes()));
-        } catch (MqttException e) {
-            logger.error("Could not send color status to mqtt server: " + e);
+        } catch (Exception e) {
+            logger.error("Could not send color status to mqtt server: ", e);
         }
     }
 
